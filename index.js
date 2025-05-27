@@ -1,17 +1,19 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var cors = require('cors');
-var port = process.env.PORT || 3000;
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-var routes = require('./routes');
-app.use('/api', routes);
-app.get('/', function (req, res) {
-  res.send('Welcome to the API');
+const express = require('express');
+const path = require('path');
+
+const app = express();
+
+// Set EJS as the view engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// Route for home page
+app.get('/', (req, res) => {
+    res.render('index', { message: 'Hello World' });
 });
-app.listen(port, function () {
-  console.log('Server is running on port ' + port);
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
 });
-module.exports=app;
